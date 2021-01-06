@@ -1,0 +1,11 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: chart
+upstream:
+  type: git
+  git:
+    commit: 5bafa9b4aedfa54b1b2ee53269dce884abccc511
+    repo: https://github.com/haproxytech/helm-charts
+    directory: haproxy
+    ref: master

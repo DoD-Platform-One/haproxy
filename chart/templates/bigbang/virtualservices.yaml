@@ -1,0 +1,18 @@
+{{ range .Values.hosts }}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ . }}-haproxy
+  namespace: {{ $.Release.Namespace }}
+spec:
+  hosts:
+    - "{{ . }}.{{ $.Values.hostname }}"
+  gateways:
+  - main.{{ $.Release.Namespace }}.svc.cluster.local
+  http:
+    - route:
+        - destination:
+            host: {{ include "haproxy.fullname" . }}
+            port:
+              number: {{ .Values.containerPorts.http }}
+{{- end }}

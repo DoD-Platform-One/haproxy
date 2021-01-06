@@ -54,10 +54,13 @@ spec:
 {{ toYaml .Values.dnsConfig | indent 8 }}
 {{- end }}
       dnsPolicy: {{ .Values.dnsPolicy }}
-{{- if .Values.imageCredentials.registry }}
       imagePullSecrets:
+{{- if .Values.imageCredentials.registry }}
       - name: {{ include "haproxy.fullname" . }}
 {{- end }}
+{{- with .Values.imagePullSecrets }}
+        {{- toYaml . | nindent 8}}
+      {{- end }}
 {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
 {{- end }}

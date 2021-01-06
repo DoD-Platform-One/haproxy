@@ -29,7 +29,7 @@ serviceAccount:
   name:
 ## Default values for image
 image:
-  repository: registry1.dsop.io/ironbank/opensource/haproxy/haproxy22 # can be changed to use CE or EE images
+  repository: registry1.dso.mil/ironbank/opensource/haproxy/haproxy22 # can be changed to use CE or EE images
   tag: "v2.2.2"
   pullPolicy: IfNotPresent
 ## Deployment or DaemonSet pod mode

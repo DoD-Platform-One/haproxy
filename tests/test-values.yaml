@@ -31,6 +31,6 @@ config: |
     mode http
     server jaeger tracing.istio-system.svc.cluster.local:80
 image:
-  repository: registry1.dsop.io/ironbank/opensource/haproxy/haproxy22
+  repository: registry1.dso.mil/ironbank/opensource/haproxy/haproxy22
 containerPorts:
   http: 8080

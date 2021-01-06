@@ -10,7 +10,7 @@ spec:
     - "{{ . }}.{{ $.Values.hostname }}"
   {{- end }}
   gateways:
-  - {{ .Values.istio.gateway }}.{{ .Values.istio.namespace }}.svc.cluster.local
+  - {{ .Values.istio.namespace }}/{{.Values.istio.gateway}}
   http:
     - route:
         - destination:

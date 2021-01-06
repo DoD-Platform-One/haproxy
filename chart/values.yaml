@@ -17,6 +17,9 @@
 hostname: bigbang.dev
 hosts:
 - haproxy
+istio:
+  gateway: main
+  namespace: istio-system
 
 usePSP: false
 

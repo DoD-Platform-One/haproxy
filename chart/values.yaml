@@ -21,6 +21,8 @@ istio:
   gateway: main
   namespace: istio-system
 
+imagePullSecrets:
+- name: private-registry
 usePSP: false
 
 ## Default values for HAProxy

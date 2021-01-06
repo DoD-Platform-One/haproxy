@@ -18,6 +18,8 @@ hostname: bigbang.dev
 hosts:
 - haproxy
 
+usePSP: false
+
 ## Default values for HAProxy
 
 ## Configure Service Account

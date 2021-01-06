@@ -34,3 +34,5 @@ image:
   repository: registry1.dso.mil/ironbank/opensource/haproxy/haproxy22
 containerPorts:
   http: 8080
+  https: 8443
+  stat: 10024

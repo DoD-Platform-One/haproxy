@@ -1,0 +1,27 @@
+hosts:
+- kiali
+- tracing
+
+podLabels:
+  protect: keycloak
+
+config: |
+  global
+    maxconn 1024
+    daemon
+    log stdout format raw local0 info
+  defaults
+    log global
+    mode http
+    option httplog
+    timeout client 60s
+    timeout connect 60s
+    timeout server 60s
+
+containerPorts:
+  http: 8080
+  https: 8443
+  stat: 10024
+
+imagePullSecrets:
+- name: private-registry-mil

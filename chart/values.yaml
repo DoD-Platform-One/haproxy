@@ -152,12 +152,12 @@ securityContext:
 ## Compute Resources
 ## ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
 resources:
-#  limits:
-#    cpu: 100m
-#    memory: 64Mi
-requests:
-  cpu: 100m
-  memory: 64Mi
+  limits:
+    cpu: 100m
+    memory: 500Mi
+  requests:
+    cpu: 100m
+    memory: 500Mi
 ## Horizontal Pod Scaler
 ## Only to be used with Deployment kind
 ## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/

@@ -24,4 +24,4 @@ containerPorts:
   stat: 10024
 
 imagePullSecrets:
-- name: private-registry-mil
+- name: private-registry

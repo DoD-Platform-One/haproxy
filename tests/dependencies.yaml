@@ -1,0 +1,8 @@
+istiooperator:
+  git: "https://repo1.dso.mil/platform-one/big-bang/apps/core/istio-operator.git"
+  namespace: "istio-operator"
+
+istio:
+  namespace: istio-system
+  git:
+    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/istio-controlplane.git

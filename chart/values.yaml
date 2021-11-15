@@ -13,14 +13,6 @@
 # limitations under the License.
 
 ## BigBang additions:
-
-hostname: bigbang.dev
-hosts:
-- haproxy
-istio:
-  gateway: main
-  namespace: istio-system
-
 imagePullSecrets:
 - name: private-registry
 usePSP: false

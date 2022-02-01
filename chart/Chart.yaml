@@ -29,4 +29,4 @@ maintainers:
 appVersion: 2.2.2
 annotations:
   bigbang.dev/applicationVersions: |
-    - HA Proxy: 2.2.2
+    - HAProxy: 2.2.2

@@ -28,6 +28,9 @@ spec:
   type: {{ .Values.service.type }}
   selector:
     {{- include "haproxy.selectorLabels" . | nindent 4 }}
+  {{- if .Values.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.service.externalTrafficPolicy }}
+  {{- end }}
   {{- with .Values.service.clusterIP }}
   clusterIP: {{ . | quote}}
   {{- end }}
@@ -36,6 +39,10 @@ spec:
   {{- end }}
   {{- with .Values.service.loadBalancerSourceRanges }}
   loadBalancerSourceRanges:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+  {{- with .Values.service.externalIPs }}
+  externalIPs:
   {{- toYaml . | nindent 2 }}
   {{- end }}
   {{- with .Values.containerPorts }}

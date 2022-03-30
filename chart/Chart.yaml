@@ -12,21 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
+apiVersion: v2
 name: haproxy
-version: 1.1.2-bb.3
-kubeVersion: ">=1.12.0-0"
 description: A Helm chart for HAProxy on Kubernetes
+type: application
+version: 1.12.0-bb.0
+appVersion: 2.2.21
+kubeVersion: ">=1.17.0-0"
 keywords:
-- haproxy
-home: https://github.com/haproxytech/helm-charts/tree/master/haproxy
+  - haproxy
+home: https://github.com/haproxytech/helm-charts/tree/main/haproxy
 sources:
-- http://www.haproxy.org/
-icon: http://www.haproxy.org/img/HAProxyCommunityEdition_60px.png
+  - http://www.haproxy.org/
+icon: https://raw.githubusercontent.com/haproxytech/helm-charts/main/haproxy/chart-icon.png
 maintainers:
-- name: Dinko Korunic
-  email: dkorunic@haproxy.com
-appVersion: 2.2.2
+  - name: Dinko Korunic
+    email: dkorunic@haproxy.com
+engine: gotpl
 annotations:
+  artifacthub.io/changes: |
+    - Update base image to 2.5.4 release # this is the upstream appVersion that ships with this chart version
+    - Add ServiceMonitor
   bigbang.dev/applicationVersions: |
-    - HAProxy: 2.2.2
+    - HAProxy: v2.2.21

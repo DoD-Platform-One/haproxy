@@ -24,6 +24,10 @@ metadata:
   name: {{ include "haproxy.fullname" . }}
   labels:
     {{- include "haproxy.labels" . | nindent 4 }}
+  {{- if .Values.podAnnotations }}
+  annotations:
+{{ toYaml .Values.podAnnotations | indent 4 }}
+  {{- end }}
 spec:
   minReadySeconds: 0
   updateStrategy:
@@ -40,12 +44,17 @@ spec:
         {{- if .Values.podLabels }}
 {{ toYaml .Values.podLabels | indent 8 }}
         {{- end }}
-      {{- if .Values.podAnnotations }}
       annotations:
+      {{- if .Values.checksumConfigMap.enabled }}
         checksum/environment: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- end }}
+      {{- if .Values.podAnnotations }}
 {{ toYaml .Values.podAnnotations | indent 8 }}
       {{- end }}
     spec:
+      {{- if .Values.shareProcessNamespace.enabled }}
+      shareProcessNamespace: true
+      {{- end }}
       serviceAccountName: {{ include "haproxy.serviceAccountName" . }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- if $useHostNetwork }}
@@ -61,6 +70,9 @@ spec:
 {{- if .Values.imageCredentials.registry }}
       imagePullSecrets:
       - name: {{ include "haproxy.fullname" . }}
+{{- else if .Values.existingImagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.existingImagePullSecret }}
 {{- end }}
 {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
@@ -69,7 +81,25 @@ spec:
         - name: haproxy-config
           configMap:
             name: {{ include "haproxy.fullname" . }}
+        {{- if .Values.includes }}
+        - name: includes
+          projected:
+            sources:
+            - configMap:
+                name: includes
+        {{- end }}
+        {{- range $mountedSecret := .Values.mountedSecrets }}
+        - name: {{ $mountedSecret.volumeName }}
+          secret:
+            secretName: {{ $mountedSecret.secretName }}
+        {{- end }}
+        {{- with.Values.extraVolumes }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       containers:
+        {{- with.Values.sidecarContainers }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
         - name: {{ .Chart.Name }}
           {{- if .Values.securityContext.enabled }}
           securityContext:
@@ -83,9 +113,15 @@ spec:
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ tpl .Values.image.tag . }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.args.enabled }}
           args:
-            - -f
-            - /usr/local/etc/haproxy/haproxy.cfg
+          {{- range .Values.args.defaults }}
+            - {{ . }}
+          {{- end }}
+          {{- range .Values.args.extraArgs }}
+            - {{ . }}
+          {{- end }}
+          {{- end }}
           ports:
           {{- range $key, $value := .Values.containerPorts }}
             - name: {{ $key }}
@@ -95,11 +131,43 @@ spec:
               hostPort: {{ index $hostPorts $key | default $value }}
               {{- end }}
           {{- end }}
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | trim | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | trim | nindent 12 }}
+          {{- end }}
+          {{- with .Values.startupProbe }}
+          startupProbe:
+            {{- toYaml . | trim | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- if .Values.lifecycle }}
+          lifecycle:
+            {{- if eq "string" (printf "%T" .Values.lifecycle) }}
+{{ tpl .Values.lifecycle . | indent 12 }}
+            {{- else }}
+{{ toYaml .Values.lifecycle | indent 12 }}
+            {{- end }}
+          {{- end }}
           volumeMounts:
             - name: haproxy-config
-              mountPath: /usr/local/etc/haproxy
+              mountPath: /usr/local/etc/haproxy/haproxy.cfg
+              subPath: haproxy.cfg
+            {{- if .Values.includes }}
+            - name: includes
+              mountPath: {{ .Values.includesMountPath }}
+            {{- end }}
+            {{- with.Values.extraVolumeMounts }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{- range $mountedSecret := .Values.mountedSecrets }}
+            - name: {{ $mountedSecret.volumeName }}
+              mountPath: {{ $mountedSecret.mountPath }}
+            {{- end }}
       {{- with.Values.initContainers }}
       initContainers:
         {{- toYaml . | nindent 8 }}

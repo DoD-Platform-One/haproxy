@@ -1,5 +1,5 @@
 {{/*
-Copyright 2020 HAProxy Technologies LLC
+Copyright 2019 HAProxy Technologies LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,26 +14,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */}}
 
-{{- if .Values.config }}
-apiVersion: v1
-kind: ConfigMap
+{{- if .Values.PodDisruptionBudget.enable }}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
 metadata:
   name: {{ include "haproxy.fullname" . }}
   labels:
-  {{- include "haproxy.labels" . | nindent 4 }}
-data:
-  haproxy.cfg: |
-  {{ tpl .Values.config . | nindent 4 }}
-{{- end }}
-
-{{- if .Values.includes }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: includes
-data:
-{{- range $key, $val := .Values.includes }}
-  {{ $key }}: | {{ $val | nindent 4 }}
-{{- end }}
+    {{- include "haproxy.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.PodDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.PodDisruptionBudget.maxUnavailable }}
+  {{- end }}
+  {{- if .Values.PodDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.PodDisruptionBudget.minAvailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- include "haproxy.selectorLabels" . | nindent 6 }}
 {{- end }}

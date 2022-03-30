@@ -297,7 +297,7 @@ podAnnotations: {}
 ## Disableable use of Pod Security Policy
 ## ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
 podSecurityPolicy:
-  create: true
+  create: false
 
 ## Pod Security Context
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/

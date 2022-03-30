@@ -1,6 +1,6 @@
 # haproxy
 
-![Version: 1.12.0-bb.1](https://img.shields.io/badge/Version-1.12.0--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.21](https://img.shields.io/badge/AppVersion-2.2.21-informational?style=flat-square)
+![Version: 1.12.0-bb.0](https://img.shields.io/badge/Version-1.12.0--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.21](https://img.shields.io/badge/AppVersion-2.2.21-informational?style=flat-square)
 
 A Helm chart for HAProxy on Kubernetes
 
@@ -42,7 +42,7 @@ helm install haproxy chart/
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `nil` |  |
 | image.repository | string | `"registry1.dso.mil/ironbank/opensource/haproxy/haproxy22"` |  |
-| image.tag | string | `"2.2.21"` |  |
+| image.tag | string | `"v2.2.21"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | checksumConfigMap.enabled | bool | `true` |  |
 | shareProcessNamespace.enabled | bool | `false` |  |
@@ -66,7 +66,7 @@ helm install haproxy chart/
 | imageCredentials.registry | string | `nil` |  |
 | imageCredentials.username | string | `nil` |  |
 | imageCredentials.password | string | `nil` |  |
-| existingImagePullSecret | string | `nil` |  |
+| existingImagePullSecret | string | `"private-registry"` |  |
 | containerPorts.http | int | `80` |  |
 | containerPorts.https | int | `443` |  |
 | containerPorts.stat | int | `1024` |  |
@@ -87,7 +87,7 @@ helm install haproxy chart/
 | dnsPolicy | string | `"ClusterFirst"` |  |
 | podLabels | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
-| podSecurityPolicy.create | bool | `true` |  |
+| podSecurityPolicy.create | bool | `false` |  |
 | podSecurityContext | object | `{}` |  |
 | securityContext.enabled | bool | `false` |  |
 | securityContext.runAsUser | int | `1000` |  |

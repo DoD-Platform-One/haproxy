@@ -1,6 +1,6 @@
 # haproxy
 
-![Version: 1.12.0-bb.0](https://img.shields.io/badge/Version-1.12.0--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.21](https://img.shields.io/badge/AppVersion-2.2.21-informational?style=flat-square)
+![Version: 1.12.0-bb.1](https://img.shields.io/badge/Version-1.12.0--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.21](https://img.shields.io/badge/AppVersion-2.2.21-informational?style=flat-square)
 
 A Helm chart for HAProxy on Kubernetes
 

@@ -5,7 +5,7 @@ metadata:
 upstream:
   type: git
   git:
-    commit: e8468d6e0a4cc9ccffaea92639d4919764e3fcba
+    commit: e4664446f979c7bc5e455e27191dcb1ebbcfffc5
     repo: https://github.com/haproxytech/helm-charts
     directory: haproxy
-    ref: main
+    ref: haproxy-1.19.3

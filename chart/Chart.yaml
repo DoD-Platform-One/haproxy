@@ -16,8 +16,8 @@ apiVersion: v2
 name: haproxy
 description: A Helm chart for HAProxy on Kubernetes
 type: application
-version: 1.12.0-bb.1
-appVersion: 2.2.21
+version: 1.19.3-bb.0
+appVersion: 2.2.31
 kubeVersion: ">=1.17.0-0"
 keywords:
   - haproxy
@@ -31,7 +31,7 @@ maintainers:
 engine: gotpl
 annotations:
   artifacthub.io/changes: |
-    - Update base image to 2.5.4 release # this is the upstream appVersion that ships with this chart version
-    - Add ServiceMonitor
+    - Update base image to HAProxy 2.8.2
+    - Fix includes name in haproxy charts (#203)
   bigbang.dev/applicationVersions: |
-    - HAProxy: v2.2.21
+    - HAProxy: v2.2.31

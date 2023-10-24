@@ -19,6 +19,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "haproxy.fullname" . }}
+  namespace: {{ include "haproxy.namespace" . }}
   labels:
     {{- include "haproxy.labels" . | nindent 4 }}
   {{- if .Values.podAnnotations }}
@@ -26,7 +27,8 @@ metadata:
 {{ toYaml .Values.podAnnotations | indent 4 }}
   {{- end }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
+  minReadySeconds: {{ .Values.minReadySeconds }}
+  {{- if and (not .Values.autoscaling.enabled) (not .Values.keda.enabled) }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
@@ -86,7 +88,7 @@ spec:
           projected:
             sources:
             - configMap:
-                name: includes
+                name: {{ include "haproxy.includes" . }}
         {{- end }}
         {{- range $mountedSecret := .Values.mountedSecrets }}
         - name: {{ $mountedSecret.volumeName }}
@@ -102,14 +104,7 @@ spec:
         {{- end }}
         - name: {{ .Chart.Name }}
           {{- if .Values.securityContext.enabled }}
-          securityContext:
-            runAsUser: {{ .Values.securityContext.runAsUser }}
-            runAsGroup: {{ .Values.securityContext.runAsGroup }}
-            capabilities:
-              drop:
-                - ALL
-              add:
-                - NET_BIND_SERVICE
+          securityContext: {{- omit .Values.securityContext "enabled" | toYaml  | nindent 12 }}
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ tpl .Values.image.tag . }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -140,6 +135,10 @@ spec:
           startupProbe:
             {{- toYaml . | trim | nindent 12 }}
           {{- end }}
+          {{- with .Values.extraEnvs }}
+          env:
+            {{- toYaml . | trim | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.lifecycle }}
@@ -152,8 +151,8 @@ spec:
           {{- end }}
           volumeMounts:
             - name: haproxy-config
-              mountPath: /usr/local/etc/haproxy/haproxy.cfg
-              subPath: haproxy.cfg
+              mountPath: {{ .Values.configMount.mountPath }}
+              subPath: {{ .Values.configMount.subPath }}
             {{- if .Values.includes }}
             - name: includes
               mountPath: {{ .Values.includesMountPath }}

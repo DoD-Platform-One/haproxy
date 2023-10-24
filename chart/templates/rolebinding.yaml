@@ -1,5 +1,5 @@
 {{/*
-Copyright 2022 HAProxy Technologies LLC
+Copyright 2019 HAProxy Technologies LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,24 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */}}
 
-{{- if and (.Capabilities.APIVersions.Has "monitoring.coreos.com/v1") .Values.serviceMonitor.enabled }}
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
+{{- if and .Values.rbac.create .Values.podSecurityPolicy.enabled -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
 metadata:
   name: {{ include "haproxy.fullname" . }}
   namespace: {{ include "haproxy.namespace" . }}
   labels:
     {{- include "haproxy.labels" . | nindent 4 }}
-    {{- if .Values.serviceMonitor.extraLabels }}
-    {{ toYaml .Values.serviceMonitor.extraLabels | nindent 4 }}
-    {{- end }}
-spec:
-  endpoints:
-    {{ .Values.serviceMonitor.endpoints | toYaml | nindent 4 }}
-  namespaceSelector:
-    matchNames:
-    - {{ .Release.Namespace }}
-  selector:
-    matchLabels:
-      {{- include "haproxy.selectorLabels" . | nindent 6 }}
-{{- end }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "haproxy.fullname" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "haproxy.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+{{- end -}}

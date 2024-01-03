@@ -348,7 +348,16 @@ podSecurityPolicy:
 
 ## Pod Security Context
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
-podSecurityContext: {}
+podSecurityContext: 
+  enabled: true
+  capabilities:
+    drop: 
+      - ALL
+  fsGroup: 1111
+  fsGroupChangePolicy: OnRootMismatch
+  runAsUser: 1111
+  runAsGroup: 1111
+  runAsNonRoot: true
   ### ref: https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/
   ### Sysctls enable only when added kublet arg: --allowed-unsafe-sysctls strings
   # sysctls:
@@ -374,9 +383,15 @@ podSecurityContext: {}
 ## Container Security Context
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 securityContext:
-  enabled: false
-  runAsUser: 1000
-  runAsGroup: 1000
+  enabled: true
+  capabilities:
+    drop: 
+      - ALL
+  fsGroup: 1111
+  fsGroupChangePolicy: OnRootMismatch
+  runAsUser: 1111
+  runAsGroup: 1111
+  runAsNonRoot: true
 #  enabled: true
 #  runAsNonRoot: true
 #  runAsUser: 1000
@@ -537,3 +552,28 @@ ingress:
     # - secretName: chart-example-tls
     #   hosts:
     #     - haproxy.domain.com
+
+istio:
+  enabled: false
+  hardened:
+    enabled: false
+    customAuthorizationPolicies: []
+    # - name: "allow-nothing"
+    #   enabled: true
+    #   spec: {}
+    monitoring:
+      enabled: true
+      namespaces:
+        - monitoring
+      principals:
+        - cluster.local/ns/monitoring/sa/monitoring-grafana
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-alertmanager
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-operator
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-prometheus
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-state-metrics
+        - cluster.local/ns/monitoring/sa/monitoring-monitoring-prometheus-node-exporter
+  mtls:
+    # STRICT = Allow only mutual TLS traffic
+    # PERMISSIVE = Allow both plain text and mutual TLS traffic
+    mode: STRICT
+

@@ -1,6 +1,6 @@
 # haproxy
 
-![Version: 1.19.3-bb.1](https://img.shields.io/badge/Version-1.19.3--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.31](https://img.shields.io/badge/AppVersion-2.2.31-informational?style=flat-square)
+![Version: 1.19.3-bb.2](https://img.shields.io/badge/Version-1.19.3--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.32](https://img.shields.io/badge/AppVersion-2.2.32-informational?style=flat-square)
 
 A Helm chart for HAProxy on Kubernetes
 
@@ -43,7 +43,7 @@ helm install haproxy chart/
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `nil` |  |
 | image.repository | string | `"registry1.dso.mil/ironbank/opensource/haproxy/haproxy22"` |  |
-| image.tag | string | `"v2.2.31"` |  |
+| image.tag | string | `"v2.2.32"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | checksumConfigMap.enabled | bool | `true` |  |
 | shareProcessNamespace.enabled | bool | `false` |  |

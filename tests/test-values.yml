@@ -25,3 +25,8 @@ containerPorts:
 
 imagePullSecrets:
 - name: private-registry
+
+# enable istio hardening
+istio:
+  hardened:
+    enabled: true

@@ -1,6 +1,6 @@
 # haproxy
 
-![Version: 1.19.3-bb.2](https://img.shields.io/badge/Version-1.19.3--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.32](https://img.shields.io/badge/AppVersion-2.2.32-informational?style=flat-square)
+![Version: 1.19.3-bb.3](https://img.shields.io/badge/Version-1.19.3--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.32](https://img.shields.io/badge/AppVersion-2.2.32-informational?style=flat-square)
 
 A Helm chart for HAProxy on Kubernetes
 
@@ -97,10 +97,20 @@ helm install haproxy chart/
 | podSecurityPolicy.annotations | object | `{}` |  |
 | podSecurityPolicy.enabled | bool | `false` |  |
 | podSecurityPolicy.allowedUnsafeSysctls | string | `nil` |  |
-| podSecurityContext | object | `{}` |  |
-| securityContext.enabled | bool | `false` |  |
-| securityContext.runAsUser | int | `1000` |  |
-| securityContext.runAsGroup | int | `1000` |  |
+| podSecurityContext.enabled | bool | `true` |  |
+| podSecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| podSecurityContext.fsGroup | int | `1111` |  |
+| podSecurityContext.fsGroupChangePolicy | string | `"OnRootMismatch"` |  |
+| podSecurityContext.runAsUser | int | `1111` |  |
+| podSecurityContext.runAsGroup | int | `1111` |  |
+| podSecurityContext.runAsNonRoot | bool | `true` |  |
+| securityContext.enabled | bool | `true` |  |
+| securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| securityContext.fsGroup | int | `1111` |  |
+| securityContext.fsGroupChangePolicy | string | `"OnRootMismatch"` |  |
+| securityContext.runAsUser | int | `1111` |  |
+| securityContext.runAsGroup | int | `1111` |  |
+| securityContext.runAsNonRoot | bool | `true` |  |
 | resources.limits.cpu | string | `"100m"` |  |
 | resources.limits.memory | string | `"500Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |

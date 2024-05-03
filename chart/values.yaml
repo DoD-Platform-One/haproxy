@@ -37,7 +37,7 @@ serviceAccount:
 ## Default values for image
 image:
   repository: registry1.dso.mil/ironbank/opensource/haproxy/haproxy22    # can be changed to use CE or EE images
-  tag: "v2.2.32"
+  tag: "v2.2.33"
   pullPolicy: IfNotPresent
 
 ## Automatically Roll Deployments

@@ -5,7 +5,7 @@ BigBang makes modifications to the upstream helm chart. The full list of changes
 ---
 
 1. Find the current and latest release notes from the [release page](https://github.com/haproxytech/helm-charts/releases?q=haproxy-1&expanded=true). Be aware of changes that are included in the upgrade. Take note of any manual upgrade steps that customers might need to perform, if any.
-1. Clone the repo locally and checkout the release tag from [the upstream repo](https://github.com/haproxytech/helm-charts/tree/main/haproxy). 
+1. Clone the repo locally and checkout the release tag from [the upstream repo](https://github.com/haproxytech/helm-charts/tree/main/haproxy).
 1. Do a diff of the current BB package against the upstream chart using [your favorite diff tool](https://marketplace.visualstudio.com/items?itemName=L13RARY.l13-diff) to become aware of any significant chart changes. You can see where the current helm chart came from by inspecting the [chart/Kptfile](../chart/Kptfile).
 1. Create a development branch and merge request from the Gitlab issue.
 1. Merge changes from the upstream chart and template into the existing HAProxy package code, again using [your favorite diff tool](https://marketplace.visualstudio.com/items?itemName=L13RARY.l13-diff) -or- (if you're feeling lucky) by using `kpt` as in the two steps below:
@@ -26,66 +26,112 @@ BigBang makes modifications to the upstream helm chart. The full list of changes
 1. When the Package pipeline runs expect the cypress tests to fail due to UI changes.
 1. Update the [README.md](../README.md) and the **"Modifications made to upstream chart"** section below again if you have made any additional changes during the upgrade/testing process.
 
+# Testing new HAProxy version
 
-# Testing a new HAProxy version
+## Branch/Tag Config
 
-1. Create a k8s dev environment. One option is to use the Big Bang [k3d-dev.sh](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/assets/scripts/developer/k3d-dev.sh) with no arguments which will give you the default configuration. The following steps assume you are using the `dev` script in this fashion.
-1. Connect to the k8s cluster and [./install_flux.sh](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/scripts/install_flux.sh)
-1. Deploy HAProxy with these minimal values overrides; core apps are disabled for quick deployment.
-    ```yaml
-    istio:
-      enabled: true
+If you'd like to install from a specific branch or tag, then the code block under haproxy needs to be uncommented and used to target your changes.
 
-    monitoring:
-      enabled: true
-      sso:
-        enabled: true
-      istio:
-        injection: "disabled"
-    ```
-1. Once deployment is complete, verify that the pod `authservice-haproxy-sso-*` is ready.
-1. Browse to [http://prometheus.dev.bigbang.mil](http://prometheus.dev.bigbang.mil)
-1. You should get redirected to an SSO page.
-
-### OPTIONAL: If you'd like to test further you can spin up a local sso workflow and test it to get to prometheus using haproxy  
-1. BB Integration Test; deploy with the below values:
-1. Ensure that authservice came up and that there is an haproxy pod in the authservice namespace
-1. Ensure that there are authorization policies in the authservice namespace
-1. Navigate to [http://prometheus.dev.bigbang.mil](http://prometheus.dev.bigbang.mil) and you should get pulled to an SSO page to login
-1. Delete all of the authorization policies in the authservice namespace, except the default deny - you should start getting 403/503 on prometheus.dev.bigbang.mi depending on prometheus' state
-```yaml
-istio:
-  enabled: true
-
-monitoring:
-  enabled: true
-  sso:
-    enabled: true
-  istio:
-    injection: "disabled"
-
-addons:
-  haproxy:
-    git:
-      tag: null
-      branch: "15-implement-istio-authorization-policies"
-    values:
-      istio:
-        enabled: true
-        hardened:
-          enabled: true
-  authservice:
-    git:
-      tag: null
-      branch: "81-implement-istio-authorization-policies"
-    values:
-      istio:
-        enabled: true
-        hardened:
-          enabled: true
-
+For example, this would target the `renovate/ironbank` branch.
 
 ```
+addons:
+  haproxy:
+    <other config/labels>
+    ...
+    ...
+
+    # Add git branch or tag information to test against a specific branch or tag instead of using `main`
+    # Must set the unused label to null
+    git:
+      tag: null
+      branch: "renovate/ironbank"
+```
+
+## Cluster setup
+
+⚠️ Always make sure your local bigbang repo is current before deploying.
+
+1. Export your Ironbank/Harbor credentials (this can be done in your `~/.bashrc` or `~/.zshrc` file if desired). These specific variables are expected by the `k3d-dev.sh` script when deploying metallb, and are referenced in other commands for consistency:
+
+    ```sh
+    export REGISTRY_USERNAME='<your_username>'
+    export REGISTRY_PASSWORD='<your_password>'
+    ```
+
+1. Export the path to your local bigbang repo (without a trailing `/`):
+
+   ⚠️ Note that wrapping your file path in quotes when exporting will break expansion of `~`.
+
+    ```sh
+    export BIGBANG_REPO_DIR=<absolute_path_to_local_bigbang_repo>
+    ```
+
+    e.g.
+
+    ```sh
+    export BIGBANG_REPO_DIR=~/repos/bigbang
+    ```
+
+1. Run the [k3d_dev.sh](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/assets/scripts/developer/k3d-dev.sh) script to deploy a dev cluster (use the default deploy with no additional flags):
+
+    ```sh
+    "${BIGBANG_REPO_DIR}/docs/assets/scripts/developer/k3d-dev.sh"
+    ```
+
+1. Export your kubeconfig:
+
+    ```sh
+    export KUBECONFIG=~/.kube/<your_kubeconfig_file>
+    ```
+
+    e.g.
+
+    ```sh
+    export KUBECONFIG=~/.kube/Christopher.Galloway-dev-config
+    ```
+
+1. [Deploy flux to your cluster](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/scripts/install_flux.sh):
+
+    ```sh
+    "${BIGBANG_REPO_DIR}/scripts/install_flux.sh -u ${REGISTRY_USERNAME} -p ${REGISTRY_PASSWORD}"
+    ```
+
+## Deploy Bigbang
+
+From the root of this repo, run one of the following deploy command:
+
+  ```sh
+  helm upgrade -i bigbang ${BIGBANG_REPO_DIR}/chart/ -n bigbang --create-namespace \
+  --set registryCredentials.username=${REGISTRY_USERNAME} --set registryCredentials.password=${REGISTRY_PASSWORD} \
+  -f https://repo1.dso.mil/big-bang/bigbang/-/raw/master/tests/test-values.yaml \
+  -f https://repo1.dso.mil/big-bang/bigbang/-/raw/master/chart/ingress-certs.yaml \
+  -f https://repo1.dso.mil/big-bang/bigbang/-/raw/master/docs/assets/configs/example/dev-sso-values.yaml \
+  -f docs/dev-overrides/minimal.yaml \
+  -f docs/dev-overrides/haproxy-testing.yaml;
+  ```
+
+This will deploy the following apps for testing (while disabling non-essential apps):
+
+- Istio, Istio operator and Authservice
+- Jaeger and Monitoring (specifically, Prometheus), with SSO enabled
+- HAProxy
+
+## Validation/Testing Steps
+
+1. Once deployment is complete, verify that the pod `authservice-haproxy-sso-*` in the `authservice` namespace is ready.
+1. Navigate to [Jaeger](https://tracing.dev.bigbang.mil/) and validate that you are prompted to login with SSO and that the login is successful.
+1. Navigate to [Prometheus](https://prometheus.dev.bigbang.mil) and validate that you are prompted to login with SSO and that the login is successful.
+
+### OPTIONAL: If you'd like to test further you can spin up a local sso workflow and test it to get to prometheus using haproxy
+
+1. Ensure that authservice came up and that there is an haproxy pod in the authservice namespace as above
+1. Ensure that there are authorization policies in the authservice namespace
+1. Navigate to [Prometheus](https://prometheus.dev.bigbang.mil) and validate that you are prompted to login with SSO and that the login is successful.
+1. Navigate to [Jaeger](https://tracing.dev.bigbang.mil) and validate that you are prompted to login with SSO and that the login is successful.
+1. Delete all of the authorization policies in the authservice namespace, except the default deny - you should start getting 403/503 on [Prometheus](https://prometheus.dev.bigbang.mil) and [Jaeger](https://tracing.dev.bigbang.mil) depending on prometheus' state
+1. Delete all of the authorization policies in the authservice namespace, both [Prometheus](https://prometheus.dev.bigbang.mil) and [Jaeger](https://tracing.dev.bigbang.mil) should redirect to an SSO page to login *Note: This will only work for a small amount of time until the authorization policies are automatically created again.*
+
 See also: [instructions for authservice](https://repo1.dso.mil/big-bang/product/packages/authservice/-/blob/main/docs/DEVELOPMENT_MAINTENANCE.md) and [suggested haproxy-sso-workflow test](https://repo1.dso.mil/big-bang/product/packages/authservice/-/merge_requests/135#note_1761311).
 
 # Modifications made to upstream chart
@@ -120,7 +166,7 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
     securityContext:
       enabled: true
       capabilities:
-        drop: 
+        drop:
           - ALL
       fsGroup: 1111
       fsGroupChangePolicy: OnRootMismatch
@@ -140,7 +186,7 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
     ```
 
 ### automountServiceAccountToken
-The mutating Kyverno policy named `update-automountserviceaccounttokens` is leveraged to harden all ServiceAccounts in this package with `automountServiceAccountToken: false`. This policy is configured by namespace in the Big Bang umbrella chart repository at [chart/templates/kyverno-policies/values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/chart/templates/kyverno-policies/values.yaml?ref_type=heads). 
+The mutating Kyverno policy named `update-automountserviceaccounttokens` is leveraged to harden all ServiceAccounts in this package with `automountServiceAccountToken: false`. This policy is configured by namespace in the Big Bang umbrella chart repository at [chart/templates/kyverno-policies/values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/chart/templates/kyverno-policies/values.yaml?ref_type=heads).
 
 This policy revokes access to the K8s API for Pods utilizing said ServiceAccounts. If a Pod truly requires access to the K8s API (for app functionality), the Pod is added to the `pods:` array of the same mutating policy. This grants the Pod access to the API, and creates a Kyverno PolicyException to prevent an alert.
 

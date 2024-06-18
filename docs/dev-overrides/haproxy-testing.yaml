@@ -19,6 +19,9 @@ istio:
   ingressGateways:
     passthrough-ingressgateway:
       enabled: false
+  gateways:
+    passthrough:
+      enabled: false
 
 istioOperator:
   enabled: true

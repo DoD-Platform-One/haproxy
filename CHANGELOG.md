@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.19.3-bb.6] - 2024-06-21
+### Changed
+- Removed shared authorization policies
+
 ## [1.19.3-bb.5] - 2024-05-06
 ### Added
 - Updated HAProxy `v2.2.32` -> `v2.2.33`

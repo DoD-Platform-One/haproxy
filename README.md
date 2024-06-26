@@ -5,11 +5,13 @@
 A Helm chart for HAProxy on Kubernetes
 
 ## Upstream References
+
 * <https://github.com/haproxytech/helm-charts/tree/main/haproxy>
 
 * <http://www.haproxy.org/>
 
 ## Learn More
+
 * [Application Overview](docs/overview.md)
 * [Other Documentation](docs/)
 
@@ -23,12 +25,13 @@ Kubernetes: `>=1.17.0-0`
 
 Install Helm
 
-https://helm.sh/docs/intro/install/
+<https://helm.sh/docs/intro/install/>
 
 ## Deployment
 
 * Clone down the repository
 * cd into directory
+
 ```bash
 helm install haproxy chart/
 ```

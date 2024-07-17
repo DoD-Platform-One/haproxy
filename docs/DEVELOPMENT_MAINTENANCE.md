@@ -185,6 +185,18 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
         memory: 500Mi
     ```
 
+## chart/templates/daemonset.yaml
+- Added call to `bigbang.labels` helper function under `spec.template.metadata.labels`
+    ```
+    {{- include "bigbang.labels" . | nindent 8 }}
+    ```
+
+## chart/templates/deployment.yaml
+- Added call to `bigbang.labels` helper function under `spec.template.metadata.labels`
+    ```
+    {{- include "bigbang.labels" . | nindent 8 }}
+    ```
+
 ### automountServiceAccountToken
 The mutating Kyverno policy named `update-automountserviceaccounttokens` is leveraged to harden all ServiceAccounts in this package with `automountServiceAccountToken: false`. This policy is configured by namespace in the Big Bang umbrella chart repository at [chart/templates/kyverno-policies/values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/chart/templates/kyverno-policies/values.yaml?ref_type=heads).
 

@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.19.3-bb.7] - 2024-07-17
+
+### Added
+
+- Added `bigbang.labels` helper function to postgresql subchart under `templates/bigbang`
+- Added call to `bigbang.labels` helper function in `chart/templates/deployment.yaml` and `chart/templates/daemonset.yaml` under `spec.template.metadata.labels`
+
 ## [1.19.3-bb.6] - 2024-06-21
 
 ### Changed

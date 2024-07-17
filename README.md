@@ -1,6 +1,6 @@
 # haproxy
 
-![Version: 1.19.3-bb.6](https://img.shields.io/badge/Version-1.19.3--bb.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.33](https://img.shields.io/badge/AppVersion-2.2.33-informational?style=flat-square)
+![Version: 1.19.3-bb.7](https://img.shields.io/badge/Version-1.19.3--bb.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.33](https://img.shields.io/badge/AppVersion-2.2.33-informational?style=flat-square)
 
 A Helm chart for HAProxy on Kubernetes
 
@@ -158,14 +158,6 @@ helm install haproxy chart/
 | istio.enabled | bool | `false` |  |
 | istio.hardened.enabled | bool | `false` |  |
 | istio.hardened.customAuthorizationPolicies | list | `[]` |  |
-| istio.hardened.monitoring.enabled | bool | `true` |  |
-| istio.hardened.monitoring.namespaces[0] | string | `"monitoring"` |  |
-| istio.hardened.monitoring.principals[0] | string | `"cluster.local/ns/monitoring/sa/monitoring-grafana"` |  |
-| istio.hardened.monitoring.principals[1] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-alertmanager"` |  |
-| istio.hardened.monitoring.principals[2] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-operator"` |  |
-| istio.hardened.monitoring.principals[3] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-prometheus"` |  |
-| istio.hardened.monitoring.principals[4] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-state-metrics"` |  |
-| istio.hardened.monitoring.principals[5] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-prometheus-node-exporter"` |  |
 | istio.mtls.mode | string | `"STRICT"` |  |
 
 ## Contributing

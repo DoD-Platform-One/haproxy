@@ -134,6 +134,15 @@ This will deploy the following apps for testing (while disabling non-essential a
 
 See also: [instructions for authservice](https://repo1.dso.mil/big-bang/product/packages/authservice/-/blob/main/docs/DEVELOPMENT_MAINTENANCE.md) and [suggested haproxy-sso-workflow test](https://repo1.dso.mil/big-bang/product/packages/authservice/-/merge_requests/135#note_1761311).
 
+## Files That Require Integration Testing
+
+- ./chart/templates/bigbang/istio/authorizationPolicies/allow-intranamespace.yaml
+- ./chart/templates/bigbang/istio/authorizationPolicies/template.yaml
+
+### Instructions for Integration Testing
+
+See the [Big Bang Doc](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads)
+
 # Modifications made to upstream chart
 This is a high-level list of modifications that Big Bang has made to the upstream helm chart. You can use this as as cross-check to make sure that no modifications were lost during the upgrade process.
 

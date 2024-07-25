@@ -1,3 +1,4 @@
+<!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # haproxy
 
 ![Version: 1.19.3-bb.7](https://img.shields.io/badge/Version-1.19.3--bb.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.33](https://img.shields.io/badge/AppVersion-2.2.33-informational?style=flat-square)
@@ -9,6 +10,10 @@ A Helm chart for HAProxy on Kubernetes
 * <https://github.com/haproxytech/helm-charts/tree/main/haproxy>
 
 * <http://www.haproxy.org/>
+
+### Upstream Release Notes
+
+* [Find upstream chart's release notes and CHANGELOG here](https://www.haproxy.org/download/2.2/src/CHANGELOG)
 
 ## Learn More
 
@@ -163,3 +168,7 @@ helm install haproxy chart/
 ## Contributing
 
 Please see the [contributing guide](./CONTRIBUTING.md) if you are interested in contributing.
+
+---
+
+_This file is programatically generated using `helm-docs` and some BigBang-specific templates. The `gluon` repository has [instructions for regenerating package READMEs](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md)._

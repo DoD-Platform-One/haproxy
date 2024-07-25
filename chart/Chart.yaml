@@ -35,3 +35,5 @@ annotations:
     - Fix includes name in haproxy charts (#203)
   bigbang.dev/applicationVersions: |
     - HAProxy: v2.2.33
+  bigbang.dev/upstreamReleaseNotesMarkdown: |
+    - [Find upstream chart's release notes and CHANGELOG here](https://www.haproxy.org/download/2.2/src/CHANGELOG)

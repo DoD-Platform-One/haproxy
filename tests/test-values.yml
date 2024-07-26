@@ -1,10 +1,3 @@
-hosts:
-- kiali
-- tracing
-
-podLabels:
-  protect: keycloak
-
 config: |
   global
     maxconn 1024
@@ -23,5 +16,3 @@ containerPorts:
   https: 8443
   stat: 10024
 
-imagePullSecrets:
-- name: private-registry

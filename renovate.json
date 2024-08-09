@@ -24,7 +24,8 @@
         {
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
-                "- HAProxy:\\s*(?<currentValue>.+)"
+                "- HAProxy:\\s*(?<currentValue>.+)",
+                "appVersion:\\s+(?<currentValue>.+)" 
             ],
             "depNameTemplate": "ironbank/opensource/haproxy/haproxy22",
             "datasourceTemplate": "docker",

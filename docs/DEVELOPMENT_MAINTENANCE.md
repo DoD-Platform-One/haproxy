@@ -195,15 +195,15 @@ This is a high-level list of modifications that Big Bang has made to the upstrea
     ```
 
 ## chart/templates/daemonset.yaml
-- Added call to `bigbang.labels` helper function under `spec.template.metadata.labels`
+- Updated podLabels templating to include `tpl`
     ```
-    {{- include "bigbang.labels" . | nindent 8 }}
+    {{- tpl (toYaml .Values.podLabels | nindent 8) . }}
     ```
 
 ## chart/templates/deployment.yaml
-- Added call to `bigbang.labels` helper function under `spec.template.metadata.labels`
+- Updated podLabels templating to include `tpl`
     ```
-    {{- include "bigbang.labels" . | nindent 8 }}
+    {{- tpl (toYaml .Values.podLabels | nindent 8) . }}
     ```
 
 ### automountServiceAccountToken

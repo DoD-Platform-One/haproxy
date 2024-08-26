@@ -43,9 +43,8 @@ spec:
       labels:
         {{- include "haproxy.selectorLabels" . | nindent 8 }}
         {{- if .Values.podLabels }}
-{{ toYaml .Values.podLabels | indent 8 }}
+        {{- tpl (toYaml .Values.podLabels | nindent 8) . }}
         {{- end }}
-        {{- include "bigbang.labels" . | nindent 8 }}
       annotations:
       {{- if .Values.checksumConfigMap.enabled }}
         checksum/environment: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}

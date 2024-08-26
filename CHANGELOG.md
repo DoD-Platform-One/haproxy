@@ -4,6 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.19.3-bb.8] - 2024-08-26
+
+### Updated
+
+- Removed previous kiali label epic changes and updated to new pattern
+
 ## [1.19.3-bb.7] - 2024-07-17
 
 ### Added

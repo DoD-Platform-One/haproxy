@@ -4,6 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.19.3-bb.9] - 2024-11-26
+
+### Updated
+
+- Added the maintenance track annotation and badge
+
 ## [1.19.3-bb.8] - 2024-08-26
 
 ### Updated

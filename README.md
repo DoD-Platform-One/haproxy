@@ -1,28 +1,29 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # haproxy
 
-![Version: 1.19.3-bb.8](https://img.shields.io/badge/Version-1.19.3--bb.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.33](https://img.shields.io/badge/AppVersion-2.2.33-informational?style=flat-square)
+![Version: 1.19.3-bb.9](https://img.shields.io/badge/Version-1.19.3--bb.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.33](https://img.shields.io/badge/AppVersion-2.2.33-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for HAProxy on Kubernetes
 
 ## Upstream References
-* <https://github.com/haproxytech/helm-charts/tree/main/haproxy>
+- <https://github.com/haproxytech/helm-charts/tree/main/haproxy>
 
 * <http://www.haproxy.org/>
 
-### Upstream Release Notes
+## Upstream Release Notes
 
-* [Find upstream chart's release notes and CHANGELOG here](https://www.haproxy.org/download/2.2/src/CHANGELOG)
+- [Find upstream chart's release notes and CHANGELOG here](https://www.haproxy.org/download/2.2/src/CHANGELOG)
 
 ## Learn More
-* [Application Overview](docs/overview.md)
-* [Other Documentation](docs/)
+
+- [Application Overview](docs/overview.md)
+- [Other Documentation](docs/)
 
 ## Pre-Requisites
 
-* Kubernetes Cluster deployed
-* Kubernetes config installed in `~/.kube/config`
-* Helm installed
+- Kubernetes Cluster deployed
+- Kubernetes config installed in `~/.kube/config`
+- Helm installed
 
 Kubernetes: `>=1.17.0-0`
 
@@ -32,8 +33,9 @@ https://helm.sh/docs/intro/install/
 
 ## Deployment
 
-* Clone down the repository
-* cd into directory
+- Clone down the repository
+- cd into directory
+
 ```bash
 helm install haproxy chart/
 ```

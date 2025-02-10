@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.19.3-bb.10] - 2025-02-03
+
+### Updated
+
+- Added the image to the Chart.yaml under `.annotations.helm.sh/images`
+- Updated `renovate.json` to point to the `2.4` version in `registry1.dso.mil`
+
 ## [1.19.3-bb.9] - 2024-11-26
 
 ### Updated

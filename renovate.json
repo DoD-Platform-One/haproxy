@@ -1,28 +1,46 @@
 {
-  "baseBranches": ["main"],
+  "baseBranches": [
+    "main"
+  ],
   "configWarningReuseIssue": false,
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate: Upgrade HAProxy Package Dependencies",
   "draftPR": true,
-  "enabledManagers": ["helm-values", "regex"],
-  "ignorePaths": ["chart/charts/**"],
-  "labels": ["haproxy", "renovate"],
+  "enabledManagers": [
+    "helm-values",
+    "custom.regex"
+  ],
+  "ignorePaths": [
+    "chart/charts/**"
+  ],
+  "labels": [
+    "haproxy",
+    "renovate"
+  ],
   "packageRules": [
     {
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "groupName": "Ironbank"
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^chart/values\\.yaml$"],
+      "customType": "regex",
+      "fileMatch": [
+        "^chart/values\\.yaml$"
+      ],
       "matchStrings": [
         "repository\\S*:\\s*(?<depName>\\S+).*\n\\s+tag:\\s*(?<currentValue>.+)"
       ],
       "datasourceTemplate": "docker"
     },
     {
-      "fileMatch": ["^chart/Chart\\.yaml$"],
+      "customType": "regex",
+      "fileMatch": [
+        "^chart/Chart\\.yaml$"
+      ],
       "matchStrings": [
         "- HAProxy:\\s*(?<currentValue>.+)",
         "appVersion:\\s+(?<currentValue>.+)"

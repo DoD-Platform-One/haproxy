@@ -28,8 +28,8 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "^chart/values\\.yaml$"
+      "managerFilePatterns": [
+        "/^chart/values\\.yaml$/"
       ],
       "matchStrings": [
         "repository\\S*:\\s*(?<depName>\\S+).*\n\\s+tag:\\s*(?<currentValue>.+)"
@@ -38,8 +38,8 @@
     },
     {
       "customType": "regex",
-      "fileMatch": [
-        "^chart/Chart\\.yaml$"
+      "managerFilePatterns": [
+        "/^chart/Chart\\.yaml$/"
       ],
       "matchStrings": [
         "- HAProxy:\\s*(?<currentValue>.+)",

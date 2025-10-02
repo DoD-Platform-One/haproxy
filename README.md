@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # haproxy
 
-![Version: 1.19.3-bb.10](https://img.shields.io/badge/Version-1.19.3--bb.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.33](https://img.shields.io/badge/AppVersion-2.2.33-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.19.3-bb.11](https://img.shields.io/badge/Version-1.19.3--bb.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.4.28](https://img.shields.io/badge/AppVersion-2.4.28-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 A Helm chart for HAProxy on Kubernetes
 
@@ -12,7 +12,7 @@ A Helm chart for HAProxy on Kubernetes
 
 ## Upstream Release Notes
 
-- [Find upstream chart's release notes and CHANGELOG here](https://www.haproxy.org/download/2.2/src/CHANGELOG)
+- [Find upstream chart's release notes and CHANGELOG here](https://www.haproxy.org/download/2.4/src/CHANGELOG)
 
 ## Learn More
 
@@ -50,8 +50,8 @@ helm install haproxy chart/
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `nil` |  |
-| image.repository | string | `"registry1.dso.mil/ironbank/opensource/haproxy/haproxy22"` |  |
-| image.tag | string | `"v2.2.33"` |  |
+| image.repository | string | `"registry1.dso.mil/ironbank/opensource/haproxy/haproxy24"` |  |
+| image.tag | string | `"2.4.28"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | checksumConfigMap.enabled | bool | `true` |  |
 | shareProcessNamespace.enabled | bool | `false` |  |
